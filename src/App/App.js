@@ -1,8 +1,6 @@
 import React, { useMemo } from "react";
 import "./App.css";
 
-import Window from "../Components/Window/Window";
-
 import {
   Box,
   createTheme,
@@ -11,10 +9,12 @@ import {
   ThemeProvider,
 } from "@mui/material";
 
-import { getDesignTheme } from "./Theme/Theme";
-
 import Store from "../Redux/Store";
 import { Provider } from "react-redux";
+import { getDesignTheme } from "./Theme/Theme";
+
+import BaseLayout from "../Components/Layout/BaseLayout";
+import "./Split.css";
 
 function App() {
   const theme = useMemo(
@@ -25,14 +25,14 @@ function App() {
     <Box
       sx={{
         height: "100vh",
-        overflowY: "scroll",
+        overflowY: "hidden",
         overflowX: "hidden",
       }}
     >
       <Provider store={Store}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Window />
+          <BaseLayout />
         </ThemeProvider>
       </Provider>
     </Box>

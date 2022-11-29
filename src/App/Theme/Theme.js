@@ -4,15 +4,24 @@ export const getDesignTheme = (mode) => ({
     ...(mode === "light"
       ? {
           // palette values for light mode
+          // primary: {
+          //   light: "#93a5ff",
+          //   main: "#556ee6",
+          //   dark: "#485ec4",
+          // },
+          // secondary: {
+          //   light: "#ffa726",
+          //   main: "#EA6823",
+          //   dark: "#fb8c00",
+          // },
           primary: {
-            light: "#93a5ff",
-            main: "#556ee6",
-            dark: "#485ec4",
+            main: "#ff7043",
           },
           secondary: {
-            light: "#ffa726",
-            main: "#EA6823",
-            dark: "#fb8c00",
+            main: "#c2185b",
+          },
+          button: {
+            main: "#1976d2",
           },
           contras: {
             main: "#000000",

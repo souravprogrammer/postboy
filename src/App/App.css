@@ -6,3 +6,21 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+/* 
+body {
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+} */
+
+.input {
+  border: 1px solid gray;
+  padding: 4px 8px;
+  border-radius: 4px;
+  width: 250px;
+
+  /* scroll instead of overflow to next line */
+  overflow-x: auto;
+}

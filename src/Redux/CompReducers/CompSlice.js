@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   sideBar: true,
-  page: "",
+  page: "coll",
   parentPage: "",
 };
 
