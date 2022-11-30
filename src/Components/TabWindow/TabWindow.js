@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import {
   Box,
@@ -8,28 +8,26 @@ import {
   Select,
   MenuItem,
   Button,
+  Tabs,
+  Tab,
+  TabPanel,
 } from "@mui/material";
 import MyInputField from "../Utils/MyInputField";
 
-function TabWindow() {
+import { useSelector, useDispatch } from "react-redux";
+import { ChangeRequest } from "../../Redux";
+
+function TabWindow({ uuid }) {
+  const dispatch = useDispatch();
+  const [tabValue, setTabValue] = useState(0);
   return (
     <Box
       sx={{
-        // border: "1px solid green",
         height: "100%",
         padding: "16px 8px",
       }}
     >
-      <Typography
-        sx={{
-          fontWeight: "bold",
-          fontSize: "14px",
-          padding: "16px 0px",
-        }}
-      >
-        https://www.youtube.com/
-      </Typography>
-
+      <Heading uuid={uuid} />
       <Grid
         container
         sx={{
@@ -40,39 +38,8 @@ function TabWindow() {
           height: "55px",
         }}
       >
-        <Grid item>
-          <FormControl sx={{ minWidth: 150, maxWidth: 150 }}>
-            <Select
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth"
-              value={"POST"}
-              // onChange={handleChange}
-              autoWidth
-              displayEmpty
-              inputProps={{ "aria-label": "Without label" }}
-              sx={{
-                height: "55px",
-                outline: "none",
-              }}
-            >
-              <MenuItem value={"GET"}>GET</MenuItem>
-              <MenuItem value={"POST"}>POST</MenuItem>
-              <MenuItem value={"PUT"}>PUT</MenuItem>
-              <MenuItem value={"PATCH"}>PATCH</MenuItem>
-              <MenuItem value={"DELETE"}>DETELTE</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid
-          item
-          sx={{
-            // border: "1px solid green",
-            height: "55px",
-            width: " calc( 100% - ( 150px + 90px ) )",
-          }}
-        >
-          <MyInputField />
-        </Grid>
+        <SelectAPI uuid={uuid} />
+        <Inp dispatch={dispatch} uuid={uuid} />
 
         <Grid item>
           <Button
@@ -91,8 +58,130 @@ function TabWindow() {
           </Button>
         </Grid>
       </Grid>
+
+      <Box sx={{ borderBottom: 1, borderColor: "divider", paddingTop: "8px" }}>
+        <Tabs
+          value={tabValue}
+          onChange={(e, v) => {
+            setTabValue(v);
+          }}
+          aria-label="basic tabs example"
+          sx={{
+            height: "32px",
+            minHeight: "32px",
+          }}
+        >
+          {["Params", "Authorization", "Headers", "body"].map((m, i) => {
+            return (
+              <Tab
+                label={m}
+                key={i}
+                sx={{
+                  textTransform: "none",
+                  fontSize: "12px",
+                  padding: "4px 8px",
+                  // padding: "4px",
+                  height: "32px",
+                  minHeight: "32px",
+                }}
+              />
+            );
+          })}
+        </Tabs>
+      </Box>
+      {tabValue}
     </Box>
   );
+}
+
+const Heading = React.memo(({ uuid }) => {
+  const url = useSelector((s) => s?.req[uuid]?.url);
+  return (
+    <Typography
+      sx={{
+        fontWeight: "bold",
+        fontSize: "14px",
+        padding: "16px 0px",
+      }}
+    >
+      {url}
+    </Typography>
+  );
+});
+const SelectAPI = ({ uuid }) => {
+  const method = useSelector((s) => s?.req[uuid]?.method);
+  const dispatch = useDispatch();
+
+  const handleChange = (c) => {
+    dispatch(
+      ChangeRequest(
+        ApiRequest({
+          method: c.target.value,
+          uuid: uuid,
+        })
+      )
+    );
+  };
+  return (
+    <Grid item>
+      <FormControl sx={{ minWidth: 150, maxWidth: 150 }}>
+        <Select
+          labelId="demo-simple-select-autowidth-label"
+          id="demo-simple-select-autowidth"
+          value={method ?? "GET"}
+          onChange={handleChange}
+          autoWidth
+          displayEmpty
+          inputProps={{ "aria-label": "Without label" }}
+          sx={{
+            height: "55px",
+            outline: "none",
+          }}
+        >
+          <MenuItem value={"GET"}>GET</MenuItem>
+          <MenuItem value={"POST"}>POST</MenuItem>
+          <MenuItem value={"PUT"}>PUT</MenuItem>
+          <MenuItem value={"PATCH"}>PATCH</MenuItem>
+          <MenuItem value={"DELETE"}>DETELTE</MenuItem>
+        </Select>
+      </FormControl>
+    </Grid>
+  );
+};
+
+const Inp = React.memo(({ dispatch, uuid }) => {
+  const url = useSelector((s) => s?.req[uuid]?.url);
+
+  return (
+    <Grid
+      item
+      sx={{
+        height: "55px",
+        width: " calc( 100% - ( 150px + 90px ) )",
+      }}
+    >
+      <MyInputField
+        initialValue={url}
+        change={(value) => {
+          console.log("value", value);
+          dispatch(
+            ChangeRequest(
+              ApiRequest({
+                url: value,
+                uuid,
+              })
+            )
+          );
+        }}
+      />
+    </Grid>
+  );
+});
+
+function ApiRequest(params) {
+  return {
+    ...params,
+  };
 }
 
 export default React.memo(TabWindow);

@@ -1,12 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./InputStyle.css";
 
 import { Box } from "@mui/material";
 const REGEX = /({{.*?}})/g;
 
-export default function MyInputField() {
+export default function MyInputField({ initialValue, change }) {
   const [value, setValue] = useState("");
   const ref = useRef(null);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, []);
 
   const syncScroll = (e) => {
     ref.current.scrollTop = e.target.scrollTop;
@@ -17,7 +21,10 @@ export default function MyInputField() {
     <Box className="input-container">
       <input
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {
+          change?.(e.target.value);
+          setValue(e.target.value);
+        }}
         onScroll={syncScroll}
         placeholder="Enter URL"
       />

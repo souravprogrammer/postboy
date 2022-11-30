@@ -1,7 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import CompSlice from "./CompReducers/CompSlice";
+import RequestSlice from "./RequestReducers/RequestSlice";
 import logger from "redux-logger";
+import { MpOutlined } from "@mui/icons-material";
 
 export const LocalStoreName = "POST_BOY";
 
@@ -29,6 +31,7 @@ function loadFromLocalStorage() {
 const Store = configureStore({
   reducer: {
     comp: CompSlice,
+    req: RequestSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   preloadedState: loadFromLocalStorage(),

@@ -11,7 +11,7 @@ export default function MainPannel() {
         height: "100%",
       }}
     >
-      <TabWindow />
+      <TabWindow uuid={"test3"} />
     </Box>
   );
 }
