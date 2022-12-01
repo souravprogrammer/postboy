@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 
+import useFetch from "../Functions/ApiHandler";
+
 import {
   Box,
   Typography,
@@ -10,16 +12,28 @@ import {
   Button,
   Tabs,
   Tab,
-  TabPanel,
 } from "@mui/material";
 import MyInputField from "../Utils/MyInputField";
 
 import { useSelector, useDispatch } from "react-redux";
 import { ChangeRequest } from "../../Redux";
+import SearchParamTab from "./SearchParamTab";
 
 function TabWindow({ uuid }) {
   const dispatch = useDispatch();
   const [tabValue, setTabValue] = useState(0);
+  const [response, dispatchRequest] = useFetch();
+
+  useEffect(() => {
+    dispatchRequest({
+      url: "https://jsonplaceholder.typicode.com/posts/1",
+      method: "get",
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("response: ", response);
+  }, [response]);
   return (
     <Box
       sx={{
@@ -89,7 +103,10 @@ function TabWindow({ uuid }) {
           })}
         </Tabs>
       </Box>
-      {tabValue}
+
+      {tabValue === 0 ? <SearchParamTab uuid={uuid} /> : null}
+
+      {/* {tabValue} */}
     </Box>
   );
 }
@@ -178,7 +195,7 @@ const Inp = React.memo(({ dispatch, uuid }) => {
   );
 });
 
-function ApiRequest(params) {
+export function ApiRequest(params) {
   return {
     ...params,
   };

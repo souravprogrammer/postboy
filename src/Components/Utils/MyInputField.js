@@ -10,7 +10,7 @@ export default function MyInputField({ initialValue, change }) {
 
   useEffect(() => {
     setValue(initialValue);
-  }, []);
+  }, [initialValue]);
 
   const syncScroll = (e) => {
     ref.current.scrollTop = e.target.scrollTop;
