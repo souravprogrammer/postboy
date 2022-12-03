@@ -9,7 +9,7 @@ export default function MyInputField({ initialValue, change }) {
   const ref = useRef(null);
 
   useEffect(() => {
-    setValue(initialValue);
+    setValue(initialValue ?? "");
   }, [initialValue]);
 
   const syncScroll = (e) => {

@@ -6,7 +6,7 @@ import { ApiRequest } from "./TabWindow";
 import { ChangeRequest } from "../../Redux";
 
 export default function BodyTab({ uuid }) {
-  const body = useSelector((s) => s.req[uuid].body);
+  const body = useSelector((s) => s.req[uuid]?.body);
   const dispatch = useDispatch();
 
   useEffect(() => {

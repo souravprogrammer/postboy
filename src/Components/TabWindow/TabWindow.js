@@ -24,22 +24,24 @@ import AuthenticationTab from "./AuthenticationTab";
 import ResponseContainer from "./ResponseContainer";
 import HeadersTab from "./HeadersTab";
 import BodyTab from "./BodyTab";
+import RequestSlice from "../../Redux/RequestReducers/RequestSlice";
 
 function TabWindow({ uuid }) {
   const dispatch = useDispatch();
   const [tabValue, setTabValue] = useState(0);
   const [response, dispatchRequest] = useFetch();
 
-  useEffect(() => {
-    dispatchRequest({
-      url: "https://jsonplaceholder.typicode.com/posts/1",
-      method: "get",
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatchRequest({
+  //     url: "https://jsonplaceholder.typicode.com/posts/1",
+  //     method: "get",
+  //   });
+  // }, []);
 
   useEffect(() => {
     console.log("response: ", response);
   }, [response]);
+
   return (
     <Box
       sx={{
@@ -70,23 +72,7 @@ function TabWindow({ uuid }) {
         >
           <SelectAPI uuid={uuid} />
           <Inp dispatch={dispatch} uuid={uuid} />
-
-          <Grid item>
-            <Button
-              variant="contained"
-              color={"primary"}
-              disableElevation
-              sx={{
-                color: "#fff",
-                height: "48px",
-                width: "90px",
-                fontSize: "16px",
-                fontWeight: "500",
-              }}
-            >
-              send
-            </Button>
-          </Grid>
+          <SendRequest uuid={uuid} dispatch={dispatchRequest} />
         </Grid>
 
         <Box
@@ -165,13 +151,44 @@ function TabWindow({ uuid }) {
               maxHeight: "calc( 100vh - 432px )",
             }}
           >
-            <ResponseContainer />
+            <ResponseContainer response={response} />
           </Grid>
         </Grid>
       </Box>
     </Box>
   );
 }
+
+const SendRequest = ({ uuid, dispatch }) => {
+  const request = useSelector((s) => s.req[uuid]);
+
+  const sendResponsehandler = () => {
+    dispatch({
+      url: request?.url ?? "",
+      method: request?.method ?? "get",
+      data: request?.body,
+    });
+  };
+  return (
+    <Grid item>
+      <Button
+        variant="contained"
+        color={"primary"}
+        disableElevation
+        onClick={sendResponsehandler}
+        sx={{
+          color: "#fff",
+          height: "48px",
+          width: "90px",
+          fontSize: "16px",
+          fontWeight: "500",
+        }}
+      >
+        send
+      </Button>
+    </Grid>
+  );
+};
 
 const Heading = React.memo(({ uuid }) => {
   const url = useSelector((s) => s?.req[uuid]?.url);

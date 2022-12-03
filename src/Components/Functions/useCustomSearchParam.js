@@ -6,7 +6,7 @@ export default function useCustSearchparams(param = "") {
   const [searchparams, setSearchParams] = useState([]);
   useLayoutEffect(() => {
     if (url === param) return;
-    setUrl(param);
+    setUrl(param ?? "");
   }, [param]);
 
   useLayoutEffect(() => {

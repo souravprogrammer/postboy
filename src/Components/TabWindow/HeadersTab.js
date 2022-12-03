@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { Grid, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Row from "./Row";
@@ -6,7 +6,7 @@ import { ChangeRequest } from "../../Redux";
 import { ApiRequest } from "./TabWindow";
 
 export default function HeadersTab({ uuid }) {
-  const header = useSelector((s) => s.req[uuid].header);
+  const header = useSelector((s) => s.req[uuid]?.headers);
 
   const dispatch = useDispatch();
 
@@ -15,7 +15,9 @@ export default function HeadersTab({ uuid }) {
       ChangeRequest(
         ApiRequest({
           uuid,
-          header: [...header, { key: "", value: "" }],
+          headers: header
+            ? [...header, { key: "", value: "" }]
+            : [{ key: "", value: "" }],
         })
       )
     );
@@ -29,7 +31,7 @@ export default function HeadersTab({ uuid }) {
       ChangeRequest(
         ApiRequest({
           uuid,
-          header: [...list],
+          headers: [...list],
         })
       )
     );
@@ -43,7 +45,7 @@ export default function HeadersTab({ uuid }) {
       ChangeRequest(
         ApiRequest({
           uuid,
-          header: [...list],
+          headers: [...list],
         })
       )
     );
@@ -59,16 +61,17 @@ export default function HeadersTab({ uuid }) {
           margin: "8px 0px",
         }}
       >
-        {header?.map((h, index) => {
-          return (
-            <Row
-              key={index}
-              data={{ ...h, index }}
-              change={onChangeparam}
-              onRemove={onRemove}
-            />
-          );
-        })}
+        {header &&
+          header?.map((h, index) => {
+            return (
+              <Row
+                key={index}
+                data={{ ...h, index }}
+                change={onChangeparam}
+                onRemove={onRemove}
+              />
+            );
+          })}
       </Grid>
       <Button variant="outlined" onClick={addRow}>
         Add

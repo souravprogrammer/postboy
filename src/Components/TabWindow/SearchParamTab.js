@@ -8,7 +8,7 @@ import { ApiRequest } from "./TabWindow";
 
 export default function SearchParamTab({ uuid }) {
   const [params, setParams] = useState([]);
-  const url = useSelector((s) => s.req[uuid].url);
+  const url = useSelector((s) => s.req[uuid]?.url);
 
   const dispatch = useDispatch();
   const searchparams = useCustSearchparams(url);
