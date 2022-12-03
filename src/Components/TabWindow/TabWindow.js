@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-
+import SplitPane from "react-split-pane";
 import useFetch from "../Functions/ApiHandler";
 
 import {
@@ -17,7 +17,13 @@ import MyInputField from "../Utils/MyInputField";
 
 import { useSelector, useDispatch } from "react-redux";
 import { ChangeRequest } from "../../Redux";
+import TabContainer from "./TabContainer";
+
 import SearchParamTab from "./SearchParamTab";
+import AuthenticationTab from "./AuthenticationTab";
+import ResponseContainer from "./ResponseContainer";
+import HeadersTab from "./HeadersTab";
+import BodyTab from "./BodyTab";
 
 function TabWindow({ uuid }) {
   const dispatch = useDispatch();
@@ -37,76 +43,132 @@ function TabWindow({ uuid }) {
   return (
     <Box
       sx={{
+        position: "relative",
         height: "100%",
         padding: "16px 8px",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <Heading uuid={uuid} />
-      <Grid
-        container
+      <Box
         sx={{
-          alignItems: "center",
-          border: "1px solid",
-          borderColor: "rgba(0,0,0,0.2)",
-          borderRadius: "5px",
-          height: "55px",
+          // border: "1px solid green",
+          width: "100%",
         }}
       >
-        <SelectAPI uuid={uuid} />
-        <Inp dispatch={dispatch} uuid={uuid} />
-
-        <Grid item>
-          <Button
-            variant="contained"
-            color={"primary"}
-            disableElevation
-            sx={{
-              color: "#fff",
-              height: "48px",
-              width: "90px",
-              fontSize: "16px",
-              fontWeight: "500",
-            }}
-          >
-            send
-          </Button>
-        </Grid>
-      </Grid>
-
-      <Box sx={{ borderBottom: 1, borderColor: "divider", paddingTop: "8px" }}>
-        <Tabs
-          value={tabValue}
-          onChange={(e, v) => {
-            setTabValue(v);
-          }}
-          aria-label="basic tabs example"
+        <Heading uuid={uuid} />
+        <Grid
+          container
           sx={{
-            height: "32px",
-            minHeight: "32px",
+            alignItems: "center",
+            border: "1px solid",
+            borderColor: "rgba(0,0,0,0.2)",
+            borderRadius: "5px",
+            height: "55px",
           }}
         >
-          {["Params", "Authorization", "Headers", "body"].map((m, i) => {
-            return (
-              <Tab
-                label={m}
-                key={i}
-                sx={{
-                  textTransform: "none",
-                  fontSize: "12px",
-                  padding: "4px 8px",
-                  // padding: "4px",
-                  height: "32px",
-                  minHeight: "32px",
-                }}
-              />
-            );
-          })}
-        </Tabs>
+          <SelectAPI uuid={uuid} />
+          <Inp dispatch={dispatch} uuid={uuid} />
+
+          <Grid item>
+            <Button
+              variant="contained"
+              color={"primary"}
+              disableElevation
+              sx={{
+                color: "#fff",
+                height: "48px",
+                width: "90px",
+                fontSize: "16px",
+                fontWeight: "500",
+              }}
+            >
+              send
+            </Button>
+          </Grid>
+        </Grid>
+
+        <Box
+          sx={{ borderBottom: 1, borderColor: "divider", paddingTop: "8px" }}
+        >
+          <Tabs
+            value={tabValue}
+            onChange={(e, v) => {
+              setTabValue(v);
+            }}
+            aria-label="basic tabs example"
+            sx={{
+              height: "32px",
+              minHeight: "32px",
+            }}
+          >
+            {["Params", "Authorization", "Headers", "body"].map((m, i) => {
+              return (
+                <Tab
+                  label={m}
+                  key={i}
+                  sx={{
+                    textTransform: "none",
+                    fontSize: "12px",
+                    padding: "4px 8px",
+                    // padding: "4px",
+                    height: "32px",
+                    minHeight: "32px",
+                  }}
+                />
+              );
+            })}
+          </Tabs>
+        </Box>
       </Box>
-
-      {tabValue === 0 ? <SearchParamTab uuid={uuid} /> : null}
-
-      {/* {tabValue} */}
+      <Box
+        sx={{
+          position: "relative",
+          flex: 1,
+          // border: "1px solid blue",
+        }}
+      >
+        <Grid
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
+        >
+          <Grid
+            sx={{
+              // border: "3px solid pink",
+              padding: "8px 16px",
+              height: "250px",
+            }}
+          >
+            <TabContainer
+              index={tabValue}
+              sx={{
+                width: "100%",
+                height: "100%",
+                // minHeight: 250,
+              }}
+            >
+              <SearchParamTab uuid={uuid} />
+              <AuthenticationTab uuid={uuid} />
+              <HeadersTab uuid={uuid} />
+              <BodyTab uuid={uuid} />
+            </TabContainer>
+          </Grid>
+          <Grid
+            sx={{
+              // border: "4px solid grey",
+              flex: 1,
+              // overflowY: "scroll",
+              maxHeight: "calc( 100vh - 432px )",
+            }}
+          >
+            <ResponseContainer />
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
   );
 }

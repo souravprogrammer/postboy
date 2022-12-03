@@ -75,7 +75,6 @@ export default function SearchParamTab({ uuid }) {
     <Grid>
       <Grid
         sx={{
-          height: "150px",
           maxHeight: "150px",
           overflowY: "scroll",
           overflowX: "hidden",
