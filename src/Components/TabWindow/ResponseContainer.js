@@ -6,7 +6,6 @@ import { Box } from "@mui/material";
 import ReactJson from "react-json-view";
 
 export default function ResponseContainer({ response }) {
-  console.log("> ", response);
   return (
     <Box
       sx={{

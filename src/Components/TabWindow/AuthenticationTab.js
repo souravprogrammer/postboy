@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Box,
@@ -10,8 +10,29 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { useDispatch, useSelector } from "react-redux";
+import { ChangeRequest } from "../../Redux";
+import { ApiRequest } from "./TabWindow";
 
 export default function AuthenticationTab({ uuid }) {
+  const authorization = useSelector((s) => s?.req[uuid]?.Authorization);
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, []);
+
+  const onchangeDropeDown = (c) => {
+    dispatch(
+      ChangeRequest(
+        ApiRequest({
+          uuid,
+          Authorization: {
+            ...authorization,
+            type: c.target.value,
+          },
+        })
+      )
+    );
+  };
   return (
     <Grid
       container
@@ -39,8 +60,8 @@ export default function AuthenticationTab({ uuid }) {
             <Select
               labelId="demo-simple-select-autowidth-label"
               id="demo-simple-select-autowidth"
-              value={"no auth"}
-              //   onChange={}
+              value={authorization?.type?.split(" ")?.[0] ?? ""}
+              onChange={onchangeDropeDown}
               autoWidth
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
@@ -49,7 +70,7 @@ export default function AuthenticationTab({ uuid }) {
                 outline: "none",
               }}
             >
-              <MenuItem value={"no auth"}>No Auth</MenuItem>
+              <MenuItem value={""}>No Auth</MenuItem>
               <MenuItem value={"bearer"}>bearer Token</MenuItem>
             </Select>
           </FormControl>
@@ -94,18 +115,35 @@ export default function AuthenticationTab({ uuid }) {
             padding: "8px 16px",
           }}
         >
-          <Typography
-            sx={{ fontWeight: "bold", color: "grey", fontSize: "14px" }}
-          >
-            Token
-          </Typography>
-
-          <OutlinedInput
-            placeholder="Token"
-            sx={{
-              height: "38px",
-            }}
-          />
+          {authorization?.type === "" ? null : (
+            <>
+              <Typography
+                sx={{ fontWeight: "bold", color: "grey", fontSize: "14px" }}
+              >
+                Token
+              </Typography>
+              <OutlinedInput
+                placeholder="Token"
+                value={authorization?.token}
+                onChange={(c) => {
+                  dispatch(
+                    ChangeRequest(
+                      ApiRequest({
+                        uuid,
+                        Authorization: {
+                          ...authorization,
+                          token: c.target.value,
+                        },
+                      })
+                    )
+                  );
+                }}
+                sx={{
+                  height: "38px",
+                }}
+              />
+            </>
+          )}
         </Box>
       </Grid>
     </Grid>

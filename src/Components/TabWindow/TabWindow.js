@@ -161,12 +161,30 @@ function TabWindow({ uuid }) {
 
 const SendRequest = ({ uuid, dispatch }) => {
   const request = useSelector((s) => s.req[uuid]);
+  const [headers, setHeaders] = useState({});
+
+  useEffect(() => {
+    const h = {};
+    request?.headers?.forEach((e) => {
+      h[e.key] = e.value;
+    });
+
+    setHeaders(h);
+  }, [request.headers]);
 
   const sendResponsehandler = () => {
+    const Authorization = {};
+    if (request?.Authorization?.type && request?.Authorization?.token) {
+      Authorization[
+        "Authorization"
+      ] = `${request?.Authorization?.type} ${request?.Authorization?.token}`;
+    }
+
     dispatch({
       url: request?.url ?? "",
       method: request?.method ?? "get",
       data: request?.body,
+      headers: { ...headers, ...Authorization },
     });
   };
   return (
