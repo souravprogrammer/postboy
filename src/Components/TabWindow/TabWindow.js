@@ -24,6 +24,7 @@ import AuthenticationTab from "./AuthenticationTab";
 import ResponseContainer from "./ResponseContainer";
 import HeadersTab from "./HeadersTab";
 import BodyTab from "./BodyTab";
+import SaveIcon from "@mui/icons-material/Save";
 import RequestSlice from "../../Redux/RequestReducers/RequestSlice";
 
 function TabWindow({ uuid }) {
@@ -203,16 +204,44 @@ const SendRequest = ({ uuid, dispatch }) => {
 
 const Heading = React.memo(({ uuid }) => {
   const url = useSelector((s) => s?.req[uuid]?.url);
+  const name = useSelector((s) => s?.req[uuid]?.name);
+
   return (
-    <Typography
+    <Box
       sx={{
-        fontWeight: "bold",
-        fontSize: "14px",
-        padding: "16px 0px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "0px 8px",
       }}
     >
-      {url}
-    </Typography>
+      <Typography
+        sx={{
+          fontWeight: "bold",
+          fontSize: "14px",
+          padding: "16px 0px",
+        }}
+      >
+        {name ? name : url}
+      </Typography>
+
+      <Box>
+        <Button
+          variant={"outlined"}
+          color={"disable"}
+          startIcon={<SaveIcon />}
+          disabled={!!name}
+          sx={
+            {
+              // color: "#fff",
+            }
+          }
+          disableElevation
+        >
+          Save
+        </Button>
+      </Box>
+    </Box>
   );
 });
 const SelectAPI = ({ uuid }) => {
