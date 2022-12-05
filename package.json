@@ -12,6 +12,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.0",
+    "formik": "^2.2.9",
     "logger": "0.0.1",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
@@ -24,6 +25,7 @@
     "react-simple-code-editor": "^0.13.1",
     "react-split-pane": "^0.1.92",
     "redux-logger": "^3.0.6",
+    "uuid4": "^2.0.3",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.5.4",
     "workbox-broadcast-update": "^6.5.4",
@@ -36,7 +38,8 @@
     "workbox-range-requests": "^6.5.4",
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4",
-    "workbox-streams": "^6.5.4"
+    "workbox-streams": "^6.5.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import CompSlice from "./CompReducers/CompSlice";
 import RequestSlice from "./RequestReducers/RequestSlice";
+import CollectionSlice from "./CollectonReducers/CollectionSlice";
 import logger from "redux-logger";
 
 export const LocalStoreName = "POST_BOY";
@@ -31,6 +32,7 @@ const Store = configureStore({
   reducer: {
     comp: CompSlice,
     req: RequestSlice,
+    collection: CollectionSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   preloadedState: loadFromLocalStorage(),

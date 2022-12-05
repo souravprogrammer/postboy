@@ -30,14 +30,6 @@ function TabWindow({ uuid }) {
   const dispatch = useDispatch();
   const [tabValue, setTabValue] = useState(0);
   const [response, dispatchRequest] = useFetch();
-
-  // useEffect(() => {
-  //   dispatchRequest({
-  //     url: "https://jsonplaceholder.typicode.com/posts/1",
-  //     method: "get",
-  //   });
-  // }, []);
-
   useEffect(() => {
     console.log("response: ", response);
   }, [response]);
@@ -51,6 +43,7 @@ function TabWindow({ uuid }) {
         width: "100%",
         display: "flex",
         flexDirection: "column",
+        // border: "1px solid red",
       }}
     >
       <Box
@@ -170,7 +163,7 @@ const SendRequest = ({ uuid, dispatch }) => {
     });
 
     setHeaders(h);
-  }, [request.headers]);
+  }, [request?.headers]);
 
   const sendResponsehandler = () => {
     const Authorization = {};
