@@ -27,7 +27,7 @@ export default function SideBarCollectionList({ collection }) {
         setOpen={setOpenCreateCollection}
       />
       <List
-        sx={{ width: "100%", bgcolor: "background.paper" }}
+        sx={{ width: "100%" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
@@ -37,6 +37,7 @@ export default function SideBarCollectionList({ collection }) {
             sx={{
               display: "flex",
               alignItems: "center",
+              backgroundColor: "transparent",
             }}
           >
             <Tooltip title="create Collection">
@@ -107,13 +108,8 @@ const MyListItem = ({ collection }) => {
         <List component="div" disablePadding>
           {collectionRequest?.map((m, i) => {
             return (
-              <ListItemButton
-                key={i}
-                sx={{
-                  border: "1px solid red",
-                }}
-              >
-                <ListItemText primary="Starred" />
+              <ListItemButton key={i}>
+                <ListItemText primary={m?.name} />
               </ListItemButton>
             );
           })}

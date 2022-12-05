@@ -26,6 +26,7 @@ import HeadersTab from "./HeadersTab";
 import BodyTab from "./BodyTab";
 import SaveIcon from "@mui/icons-material/Save";
 import RequestSlice from "../../Redux/RequestReducers/RequestSlice";
+import SaveModal from "./SaveModal";
 
 function TabWindow({ uuid }) {
   const dispatch = useDispatch();
@@ -203,8 +204,13 @@ const SendRequest = ({ uuid, dispatch }) => {
 };
 
 const Heading = React.memo(({ uuid }) => {
+  const [open, setOpen] = useState(false);
   const url = useSelector((s) => s?.req[uuid]?.url);
   const name = useSelector((s) => s?.req[uuid]?.name);
+
+  const handlOpen = (s) => {
+    setOpen?.(true);
+  };
 
   return (
     <Box
@@ -231,6 +237,7 @@ const Heading = React.memo(({ uuid }) => {
           color={"disable"}
           startIcon={<SaveIcon />}
           disabled={!!name}
+          onClick={handlOpen}
           sx={
             {
               // color: "#fff",
@@ -241,6 +248,7 @@ const Heading = React.memo(({ uuid }) => {
           Save
         </Button>
       </Box>
+      <SaveModal open={open} setOpen={setOpen} uuid={uuid} />
     </Box>
   );
 });

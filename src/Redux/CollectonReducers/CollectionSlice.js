@@ -20,22 +20,16 @@ const CollectionSlice = createSlice({
         request: [],
       });
     },
-  },
-  AddRequestInCollection: (state, action) => {
-    state = state?.map((m, i) => {
-      return m.uuid === action?.payload?.collectionuuid
-        ? {
-            ...m,
-            request: [
-              ...m.request,
-              {
-                name: action?.payload?.name,
-                uuid: action?.payload?.requestuuid,
-              },
-            ],
-          }
-        : m;
-    });
+    AddRequestInCollection: (state, action) => {
+      for (let collection of state) {
+        if (collection.uuid === action?.payload?.collectionuuid) {
+          collection.request.push({
+            name: action?.payload?.name,
+            uuid: action?.payload?.requestuuid,
+          });
+        }
+      }
+    },
   },
 });
 

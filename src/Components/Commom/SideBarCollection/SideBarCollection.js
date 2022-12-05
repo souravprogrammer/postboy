@@ -16,9 +16,6 @@ function SideBarCollection() {
   return (
     <Box>
       <SideBarCollectionList collection={collection} />
-      {/* {collection?.map((c, i) => {
-        return <>{c.name}</>;
-      })} */}
 
       {collection.length <= 0 && <NoCollection />}
     </Box>
