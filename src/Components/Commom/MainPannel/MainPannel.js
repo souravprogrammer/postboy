@@ -16,8 +16,8 @@ export default function MainPannel() {
   return (
     <Box
       sx={{
-        // border: "1px solid red",
         height: "100%",
+        maxWidth: "100%",
       }}
     >
       <CustomTabs tabOpen={tabOpen} setTabOpen={setTabOpen} />

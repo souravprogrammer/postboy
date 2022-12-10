@@ -40,7 +40,7 @@ function TabWindow({ uuid }) {
     <Box
       sx={{
         position: "relative",
-        height: "100%",
+        height: "calc(100% - 42px)",
         padding: "16px 8px",
         width: "100%",
         display: "flex",

@@ -7,7 +7,7 @@ import { TabContext, TabList } from "@mui/lab";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { IconButton, Tabs, Grid } from "@mui/material";
-import { CloseTab, NewRequest, OpenTab } from "../../../Redux";
+import { CloseTab, NewRequest } from "../../../Redux";
 import uuid4 from "uuid4";
 
 export default function CustomTabs({ onChangeTab, tabOpen, setTabOpen }) {
@@ -48,15 +48,29 @@ export default function CustomTabs({ onChangeTab, tabOpen, setTabOpen }) {
 
   return (
     <Grid
-      container
       alignItems={"center"}
-      sx={
-        {
-          // border: "1px solid red",
-        }
-      }
+      sx={{
+        display: "flex",
+
+        maxWidth: "100%",
+        position: "relative",
+
+        minHeight: "42px",
+
+        borderBottom: "1px solid rgba(0,0,0,0.1)",
+        maxHeight: "42px",
+      }}
     >
-      <Grid item xs={11}>
+      <Grid
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          maxWidth: "100%",
+          minHeight: "42px",
+          position: "absolute",
+          width: "100%",
+        }}
+      >
         {tabOpen && tab.length > 0 && (
           <Tabs
             value={tabOpen}
@@ -74,6 +88,9 @@ export default function CustomTabs({ onChangeTab, tabOpen, setTabOpen }) {
             sx={{
               height: "42px",
               minHeight: "42px",
+              minWidth: "200px",
+              width: "calc(100% - 40px)",
+              maxWidth: "calc(100% - 40px)",
             }}
           >
             {tab?.map((m, i) => {
@@ -116,11 +133,17 @@ export default function CustomTabs({ onChangeTab, tabOpen, setTabOpen }) {
             })}
           </Tabs>
         )}
-      </Grid>
-      <Grid item xs={1}>
-        <IconButton onClick={onAddTab}>
-          <AddIcon />
-        </IconButton>
+        <Grid
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+          }}
+        >
+          <IconButton onClick={onAddTab}>
+            <AddIcon />
+          </IconButton>
+        </Grid>
       </Grid>
     </Grid>
   );
