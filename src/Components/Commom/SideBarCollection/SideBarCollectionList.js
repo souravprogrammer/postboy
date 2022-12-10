@@ -16,10 +16,12 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { CreateCollectonModal } from "./SideBarCollection";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { ChangeCollection, OpenTab } from "../../../Redux";
 
 export default function SideBarCollectionList({ collection }) {
   const [openCreateCollection, setOpenCreateCollection] = useState(false);
+  const currCollection = useSelector((s) => s.comp?.currentCollection);
   return (
     <Box>
       <CreateCollectonModal
@@ -66,15 +68,26 @@ export default function SideBarCollectionList({ collection }) {
         }
       >
         {collection?.map((m, i) => {
-          return <MyListItem key={i} collection={m} />;
+          return (
+            <MyListItem
+              sx={{
+                backgroundColor:
+                  m.uuid === currCollection ? "rgba(0,0,0,0.09)" : "",
+              }}
+              key={i}
+              collection={m}
+            />
+          );
         })}
       </List>
     </Box>
   );
 }
 
-const MyListItem = ({ collection }) => {
+const MyListItem = ({ collection, sx }) => {
   const [open, setOpen] = useState(false);
+
+  const dispatch = useDispatch();
 
   const collectionRequest = useSelector((s) => {
     const req = s.req;
@@ -88,14 +101,17 @@ const MyListItem = ({ collection }) => {
       return [];
     }
   });
-
+  const handleCollectionClick = () => {
+    dispatch(ChangeCollection(collection?.uuid ?? ""));
+  };
   const handleClick = () => {
     setOpen(!open);
   };
   return (
     <>
       <ListItem
-        sx={{}}
+        sx={{ ...sx }}
+        onClick={handleCollectionClick}
         secondaryAction={
           <IconButton edge="end" aria-label="comments" onClick={handleClick}>
             {open ? <ExpandLess /> : <ExpandMore />}
@@ -108,7 +124,12 @@ const MyListItem = ({ collection }) => {
         <List component="div" disablePadding>
           {collectionRequest?.map((m, i) => {
             return (
-              <ListItemButton key={i}>
+              <ListItemButton
+                key={i}
+                onClick={() => {
+                  dispatch(OpenTab(m?.uuid));
+                }}
+              >
                 <ListItemText primary={m?.name} />
               </ListItemButton>
             );

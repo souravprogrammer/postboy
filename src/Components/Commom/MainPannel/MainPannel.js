@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Box } from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
 import TabWindow from "../../TabWindow/TabWindow";
+import { useSelector } from "react-redux";
+import CustomTabs from "./CustomTabs";
 
 export default function MainPannel() {
+  // const [OpenTab, setOpenTab] = useState("");
+  const [tabOpen, setTabOpen] = useState("");
+
+  useEffect(() => {
+    console.log(">>> ", tabOpen);
+  }, [tabOpen]);
+
   return (
     <Box
       sx={{
@@ -11,7 +20,9 @@ export default function MainPannel() {
         height: "100%",
       }}
     >
-      <TabWindow uuid={"test3"} />
+      <CustomTabs tabOpen={tabOpen} setTabOpen={setTabOpen} />
+
+      {tabOpen && <TabWindow uuid={tabOpen} />}
     </Box>
   );
 }

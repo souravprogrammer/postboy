@@ -22,7 +22,7 @@ export default function BodyTab({ uuid }) {
       }}
     >
       <Edit
-        code={body}
+        code={body ?? ""}
         setCode={(c) => {
           console.log(c);
           dispatch(

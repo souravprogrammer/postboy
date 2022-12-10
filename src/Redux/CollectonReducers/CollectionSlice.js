@@ -23,10 +23,11 @@ const CollectionSlice = createSlice({
     AddRequestInCollection: (state, action) => {
       for (let collection of state) {
         if (collection.uuid === action?.payload?.collectionuuid) {
-          collection.request.push({
-            name: action?.payload?.name,
-            uuid: action?.payload?.requestuuid,
-          });
+          // collection.request.push({
+          //   name: action?.payload?.name,
+          //   uuid: action?.payload?.requestuuid,
+          // });
+          collection.request.push({ uuid: action?.payload?.requestuuid });
         }
       }
     },
