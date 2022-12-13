@@ -11,9 +11,6 @@ import "prismjs/themes/prism.css";
 import "./editor.css";
 
 export default function Edit(props) {
-  useLayoutEffect(() => {
-    console.log("==", props.code);
-  }, [props.code]);
   return (
     <Box>
       <Editor

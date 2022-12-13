@@ -9,7 +9,7 @@ import SideBarList from "../Commom/SideBarList";
 import MainPannel from "../Commom/MainPannel/MainPannel";
 
 function BaseLayout() {
-  const [compSize, setCompSize] = useSaveToLoacalStorage("splitPos", 300);
+  const [compSize, setCompSize] = useSaveToLoacalStorage("splitPos", 360);
 
   return (
     <Box
@@ -19,7 +19,7 @@ function BaseLayout() {
     >
       <SplitPane
         split="vertical"
-        minSize={300}
+        minSize={360}
         maxSize={500}
         defaultSize={parseInt(compSize)}
         onChange={setCompSize}
@@ -31,7 +31,14 @@ function BaseLayout() {
       >
         <SideBar list={SideBarList()} />
 
-        <MainPannel />
+        <Box
+          sx={{
+            width: `calc(100vw - ${compSize}px)`,
+            height: "100vh",
+          }}
+        >
+          <MainPannel />
+        </Box>
       </SplitPane>
     </Box>
   );

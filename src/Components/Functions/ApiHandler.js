@@ -13,24 +13,24 @@ async function makeRequest(params) {
     return {
       ...result,
       size: {
-        responseSize: JSON.stringify(result).length,
-        body: JSON.stringify(result.data).length,
-        headers: JSON.stringify(result.headers).length,
+        responseSize: JSON.stringify(result)?.length,
+        body: JSON.stringify(result?.data)?.length,
+        headers: JSON.stringify(result?.headers)?.length,
       },
     };
   } catch (e) {
     return {
       ...e.response,
       size: {
-        responseSize: JSON.stringify(e.response).length,
-        body: JSON.stringify(e.response.data).length,
-        headers: JSON.stringify(e.response.headers).length,
+        responseSize: JSON.stringify(e.response)?.length,
+        body: JSON.stringify(e.response.data)?.length,
+        headers: JSON.stringify(e.response.headers)?.length,
       },
     };
   }
 }
 
-export default function useFetch() {
+export default function useFetch(dep = []) {
   const [params, setParams] = useState();
   const [response, setResponse] = useState();
 
@@ -44,6 +44,12 @@ export default function useFetch() {
 
     call();
   }, [params]);
+
+  useEffect(() => {
+    if (!response) return;
+
+    setResponse(undefined);
+  }, [...dep]);
 
   return [response, setParams];
 }

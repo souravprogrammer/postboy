@@ -17,8 +17,9 @@ export default function BodyTab({ uuid }) {
       sx={{
         border: "1px solid rgba(0,0,0,0.2)",
         height: "100%",
-        overflowY: "scroll",
+        overflowY: "hidden",
         borderRadius: "3px",
+        // maxHeight: "250px",
       }}
     >
       <Edit

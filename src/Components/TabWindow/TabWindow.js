@@ -1,7 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import SplitPane from "react-split-pane";
-import useFetch from "../Functions/ApiHandler";
-
 import {
   Box,
   Typography,
@@ -21,17 +18,15 @@ import TabContainer from "./TabContainer";
 
 import SearchParamTab from "./SearchParamTab";
 import AuthenticationTab from "./AuthenticationTab";
-import ResponseContainer from "./ResponseContainer";
 import HeadersTab from "./HeadersTab";
 import BodyTab from "./BodyTab";
 import SaveIcon from "@mui/icons-material/Save";
-import RequestSlice from "../../Redux/RequestReducers/RequestSlice";
 import SaveModal from "./SaveModal";
 
-function TabWindow({ uuid }) {
+function TabWindow({ uuid, response, dispatchRequest }) {
   const dispatch = useDispatch();
   const [tabValue, setTabValue] = useState(0);
-  const [response, dispatchRequest] = useFetch();
+
   useEffect(() => {
     console.log("response: ", response);
   }, [response]);
@@ -40,17 +35,17 @@ function TabWindow({ uuid }) {
     <Box
       sx={{
         position: "relative",
-        height: "calc(100% - 42px)",
+        height: "100%",
         padding: "16px 8px",
         width: "100%",
+        maxWidth: "100%",
         display: "flex",
         flexDirection: "column",
-        // border: "1px solid red",
+        overflow: "scroll",
       }}
     >
       <Box
         sx={{
-          // border: "1px solid green",
           width: "100%",
         }}
       >
@@ -93,7 +88,7 @@ function TabWindow({ uuid }) {
                     textTransform: "none",
                     fontSize: "12px",
                     padding: "4px 8px",
-                    // padding: "4px",
+
                     height: "32px",
                     minHeight: "32px",
                   }}
@@ -106,8 +101,8 @@ function TabWindow({ uuid }) {
       <Box
         sx={{
           position: "relative",
-          flex: 1,
-          // border: "1px solid blue",
+
+          overflowY: "scroll",
         }}
       >
         <Grid
@@ -115,13 +110,15 @@ function TabWindow({ uuid }) {
             display: "flex",
             flexDirection: "column",
             height: "100%",
+
+            position: "relative",
           }}
         >
           <Grid
             sx={{
-              // border: "3px solid pink",
               padding: "8px 16px",
-              height: "250px",
+
+              width: "100%",
             }}
           >
             <TabContainer
@@ -129,7 +126,6 @@ function TabWindow({ uuid }) {
               sx={{
                 width: "100%",
                 height: "100%",
-                // minHeight: 250,
               }}
             >
               <SearchParamTab uuid={uuid} />
@@ -137,16 +133,6 @@ function TabWindow({ uuid }) {
               <HeadersTab uuid={uuid} />
               <BodyTab uuid={uuid} />
             </TabContainer>
-          </Grid>
-          <Grid
-            sx={{
-              // border: "4px solid grey",
-              flex: 1,
-              // overflowY: "scroll",
-              maxHeight: "calc( 100vh - 432px )",
-            }}
-          >
-            <ResponseContainer response={response} />
           </Grid>
         </Grid>
       </Box>
