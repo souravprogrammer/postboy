@@ -45,6 +45,34 @@ export default function ResponseContainer({ response }) {
           }}
         />
       )}
+
+      {response === undefined && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            component="img"
+            src={"assets/lost_zoro.png"}
+            sx={{
+              height: "300px",
+              // width: "256px",
+            }}
+          />
+          <Typography
+            sx={{
+              fontSize: "12px",
+              color: "grey",
+              padding: "8px",
+            }}
+          >
+            Enter the URL and click Send to get a response
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 }

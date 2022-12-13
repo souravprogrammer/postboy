@@ -9,7 +9,7 @@ import ResponseContainer from "../../TabWindow/ResponseContainer";
 import useFetch from "../../Functions/ApiHandler";
 
 export default function MainPannel() {
-  const [tabOpen, setTabOpen] = useState("");
+  const [tabOpen, setTabOpen] = useState("prev");
   const [compSize, setCompSize] = useSaveToLoacalStorage("splitPos2", 439);
   const [response, dispatchRequest] = useFetch([tabOpen]);
 
@@ -20,55 +20,57 @@ export default function MainPannel() {
         maxWidth: "100%",
       }}
     >
-      <Box
-        sx={{
-          height: "100%",
-
-          position: "relative",
-        }}
-      >
-        <SplitPane
-          split="horizontal"
-          minSize={439}
-          maxSize={600}
-          defaultSize={parseInt(compSize)}
-          onChange={setCompSize}
-          style={{
-            width: "100%",
-
+      {
+        <Box
+          sx={{
             height: "100%",
-            maxWidth: "100%",
+
+            position: "relative",
           }}
         >
-          <Box
-            sx={{
+          <SplitPane
+            split="horizontal"
+            minSize={439}
+            maxSize={600}
+            defaultSize={parseInt(compSize)}
+            onChange={setCompSize}
+            style={{
               width: "100%",
 
-              overflow: "hidden",
+              height: "100%",
+              maxWidth: "100%",
             }}
           >
-            <CustomTabs tabOpen={tabOpen} setTabOpen={setTabOpen} />
-            {tabOpen && (
-              <TabWindow
-                uuid={tabOpen}
-                response={response}
-                dispatchRequest={dispatchRequest}
-              />
-            )}
-          </Box>
+            <Box
+              sx={{
+                width: "100%",
 
-          <Box
-            sx={{
-              height: ` calc(100vh - ${compSize}px)`,
+                overflow: "hidden",
+              }}
+            >
+              <CustomTabs tabOpen={tabOpen} setTabOpen={setTabOpen} />
+              {tabOpen && (
+                <TabWindow
+                  uuid={tabOpen}
+                  response={response}
+                  dispatchRequest={dispatchRequest}
+                />
+              )}
+            </Box>
 
-              overflowY: "scroll",
-              overflowX: "hidden",
-            }}
-          >
-            <ResponseContainer response={response} />
-          </Box>
-        </SplitPane>
-      </Box>
+            <Box
+              sx={{
+                height: ` calc(100vh - ${compSize}px)`,
+
+                overflowY: "scroll",
+                overflowX: "hidden",
+              }}
+            >
+              <ResponseContainer response={response} />
+            </Box>
+          </SplitPane>
+        </Box>
+      }
     </Box>
   );
 }

@@ -1,25 +1,27 @@
 {
-  "short_name": "Post Boy",
-  "name": "Post Boy",
+  "name": "Post boy",
+  "short_name": "Post boy",
+
+  "theme_color": "#ff7043",
+  "background_color": "#ff7043",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
     {
-      "src": "assets/logo.webp",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "assets/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
-      "src": "assets/logo.webp",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "assets/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
     },
     {
-      "src": "assets/logo.webp",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "assets/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#ff7043",
-  "background_color": "#ffffff"
+  ]
 }
